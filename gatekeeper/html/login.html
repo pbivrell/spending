@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>	
+		<p>Logged in as <b><span id="current">N/A</span></b> | role <span id="role">N/A</span></p>
+		<h1> Login </h1>
+		<form id="myForm">
+			<label for="username">Username:</label><br>
+			<input type="text" id="username"><br><br>
+			<label for="password">Password:</label><br>
+			<input type="password" id="password"><br><br>
+			<button type="button" onclick="blah()">Submit</button>
+		</form>
+	</body>
+
+	<script>
+
+		function blah(){
+
+			var data = {
+				"username": $("#username")[0].value,
+				"password": $("#password")[0].value,
+			};
+
+			$.ajax({
+				type: "POST",
+				url: "/api/v1/login",
+				data: JSON.stringify(data),
+				success: function(output, status, xhr) {
+					getUser();
+				},
+				error: function(output, status, xhr) {
+					alert("Log in error");
+				},
+				contentType : "application/json"
+			});
+			return false;
+		}
+
+		function getUser() {
+			$.ajax({
+				type: "GET",
+				url: "/api/v1/user",
+				success: function(output, status, xhr) {
+					var data = JSON.parse(output);
+					$("#current").text(data.username);
+					$("#role").text(data.role);
+				},
+				contentType : "application/json"
+			});
+
+		}
+
+		$(document).ready(function(){
+			getUser();
+		})
+	</script>
+</html>
+
