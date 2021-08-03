@@ -1,20 +1,23 @@
 {
-  "name": "Hasura GraphQL Engine",
-  "description": "Blazing fast, instant realtime GraphQL APIs on Postgres with fine grained access control and webhook triggers for async business logic.",
-  "logo": "https://storage.googleapis.com/hasura-graphql-engine/console/assets/favicon.png",
+  "name": "Spend-it",
+  "description": "A simple web app for tracking your spending habits through estimation",
+  "logo": "",
   "keywords": [
-    "database",
+    "money",
     "api",
     "graphql",
     "heroku",
     "postgres",
     "hasura"
   ],
-  "success_url": "/console",
-  "website": "https://hasura.io",
-  "repository": "https://github.com/hasura/graphql-engine-heroku",
+  "success_url": "/",
+  "website": "",
+  "repository": "https://github.com/pbivrell/spending",
   "formation": {
     "web": {
+      "quantity": 1
+    },
+    "api": {
       "quantity": 1
     }
   },

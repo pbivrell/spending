@@ -1,4 +1,5 @@
 build: 
   docker:
-    api: Dockerfile
+    api: hasura/Dockerfile
     web: client/Dockerfile
+    auth: gatekeeper/Dockerfile
