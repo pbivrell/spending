@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const url = 'http://localhost:8080/api/v1/refresh'
-const url = 'http://spend-it-gatekeeper:8080/api/v1/refresh'
+const url = 'http://spend-it-gatekeeper/api/v1/refresh'
 
 const inMemoryJWTManager = () => {
     let logoutEventName = 'ra-logout';
