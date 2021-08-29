@@ -12,7 +12,7 @@ import jwt_decode from "jwt-decode";
 
 
 export default function LoggedNav() {
-  const redirect = "https://spend-it-gatekeeper.herokuapp.com/?redirect=spend-it.herokuapp.com/redirect"
+  const redirect = "https://spend-it-gatekeeper.herokuapp.com/?redirect.html=spend-it.herokuapp.com/redirect"
   //const redirect = "http://localhost:8080/redirect.html?redirect=localhost:3001/redirect"
 
   const { tokenHolder } = useAppContext();
