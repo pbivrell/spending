@@ -2,19 +2,15 @@ import { Doughnut } from 'react-chartjs-2';
 import React, { useState, useEffect } from "react";
 
 
-export default function DoughnutChart() {
+export default function DoughnutChart({spending, income}) {
 
-	const [data, setData] = useState([]);
+	let apiData = {spending: spending, income: income};
 
-	async function getData() {
-		
-		let apiData = {spending: 1504, income: 2000};
-
-		setData({
-  			labels: ["Remaining", "Spending"],
-  			datasets: [
+	let data = {
+  		labels: ["Remaining", "Spending"],
+  		datasets: [
     			{
-      				data: [apiData.income - apiData.spending, apiData.spending],
+      				data: [Math.max(0, apiData.income - apiData.spending), apiData.spending],
       				backgroundColor: [
         				'rgba(66, 135, 245, 0.7)',
         				'rgba(252, 3, 61, 0.7)',
@@ -25,13 +21,9 @@ export default function DoughnutChart() {
       				],
       				borderWidth: 2,
     			},
-  			],
-		})
+  		],
+		
 	};
-
-	useEffect(() => {
-    	getData();
-    }, []);
 
 	const options = {
     		plugins: {

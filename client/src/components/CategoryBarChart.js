@@ -16,38 +16,24 @@ const options = {
   },
 };
 
-export default function CategoryBarChart (
-	income=true,
-) {
+export default function CategoryBarChart ( {
+
+	income,
+	inData,
+}) {
 
 	const [data, setData] = useState([]);
 
 	async function getData() {
 	
-		let apiData = [
-			{
-				name: "other", 
-				estimate: 50,
-				actual: 200,
-			},{
-				name: "name", 
-				estimate: 92,
-				actual: 81,
-			},{
-				name: "bear", 
-				estimate: 1,
-				actual: 21,
-			},
-		];
+		let apiData = {}
 
 		let colors = [
       			'rgba(40, 179, 23, 0.4)',
       			'rgba(40, 179, 23, 1)',
 		]
 
-		console.log(income.income)
-			
-		if (!income.income) {
+		if (!income) {
 			colors = [
 				'rgba(252, 3, 61, 0.2)',
 				'rgba(252, 3, 61, 1.0)',
@@ -70,19 +56,24 @@ export default function CategoryBarChart (
 			],
 		}
 
-		apiData.forEach((item) => {
-			graphData.labels.push(item.name);
-			graphData.datasets[0].data.push(item.estimate);
-			graphData.datasets[1].data.push(item.actual);
+		if (inData) {
+		Object.values(inData).forEach((item) => {
+			graphData.labels.push(item.description);
+			graphData.datasets[0].data.push(parseFloat(item.amount.substring(1)));
+			let actual = 0;
+			if(apiData[item.description]) {
+				actual = parseFloat(item.amount.substring(1));
+			}
+			graphData.datasets[1].data.push(actual);
 		});
-	
-		console.log(graphData);
+		}
+
 		setData(graphData);
 	}
 
 	useEffect(() => {
         	getData();
-    	}, []);
+    	}, [inData]);
 
 	return (
 		<Bar data={data} options={options} />

@@ -6,53 +6,48 @@ import { BsPlus } from "react-icons/bs";
 import Button from "react-bootstrap/Button";
 import Transaction from "./Transaction";
 import TransactionModal from "./TransactionModal";
+import {useAppContext} from "../libs/contextLib.js";
+import axios from "axios";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 
 export default function DisplayRow({
 	type,
+	initalData, 
 }) {
-	const [notes, setNotes] = useState([]);
-	//const { isAuthenticated } = useAppContext();
-	const [isLoading, setIsLoading] = useState(true);
+	const { tokenHolder } = useAppContext();
+	const [loggedIn, setLoggedIn] = useState(tokenHolder.getToken());
+
+	if (!loggedIn) {
+		tokenHolder.waitForTokenRefresh().then(() => {
+			setLoggedIn(tokenHolder.getToken());
+		});
+	}
+
+	console.log("Inital data", initalData);
 	
 	const [show, setShow] = useState(null);
-        const handleClose = () => setShow(null);
-        const handleShow = (id, type, name="", amount=0, update=false, occurance=1, period="Day", date=new Date()) => setShow({
+        const handleClose = (t) => {
+		console.log("TEST", t, type);
+		if (typeof t === "string" && typeof type === "string" && type.toLowerCase() === t.toLowerCase()) {
+		}
+		setShow(null);
+	}
+	
+        const handleShow = (id, type, description="", amount=0, estimate=true, occurrence=1, period="Day", date=new Date()) => setShow({
 		"id": id,
                 "type": type,
-                "name": name,
+                "description": description,
                 "amount": amount,
-                "update": update,
-                "occurance": occurance,
+                "estimate": estimate,
+                "occurrence": occurrence,
                 "period": period,
                 "date": date,
         });
 
 
-	const handleClick = () => handleShow(type);
-
-	useEffect(() => {
-		async function onLoad() {
-
-			try {
-				const notes = await loadNotes();
-				setNotes(notes);
-			} catch (e) {
-				onError(e);
-			}
-
-			setIsLoading(false);
-		}
-
-		onLoad();
-	}, []);
-	
-	function loadNotes() {
-		return [{Id: 0, Amount: 500, Description: "Name"},{Id: 1, Amount: 500, Description: "Other"} ];
-	}
-
+	const handleClick = () => handleShow("",type);
 
 	function renderNotes() {
 		return (
@@ -61,7 +56,9 @@ export default function DisplayRow({
 				<Button onClick={handleClick}>
 					<BsPlus size={27} />
 				</Button>
-				<ListGroup horizontal="md">{!isLoading && renderNotesList(notes)}</ListGroup>
+				{ 
+					initalData === undefined ? <p> Loading</p> : <ListGroup horizontal="md">{renderNotesList(initalData)}</ListGroup>
+				}
 			</div>
 		);
 	}
@@ -74,10 +71,11 @@ export default function DisplayRow({
 
 
 	function renderNotesList(notes) {
+		console.log("apple", notes);
 		return (
 			<>
-				{notes.map(({ Amount, Description, Id }) => (
-					<Transaction onclick={() => handleShow(Id, type, Description, Amount, true)} description={Description} amount={Amount}/>
+				{notes.map(({ amount, description, id }) => (
+					<Transaction onclick={() => handleShow(id, type, description, amount, true)} description={description} amount={amount}/>
 				))}
 				{ show ? <TransactionModal handleClose={handleClose} data={show}/> : null }
 			</>
