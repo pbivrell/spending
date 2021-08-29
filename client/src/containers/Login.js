@@ -5,6 +5,9 @@ import axios from 'axios';
 
 import "./Login.css";
 
+//const url = 'http://localhost:8080/api/v1/login';
+const url = 'http://spend-it-gatekeeper:8080/api/v1/login';
+
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +18,7 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    axios.post('http://localhost:8080/api/v1/login', {
+    axios.post(url, {
     	username: username,
     	password: password
     })

@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+//const url = 'http://localhost:8080/api/v1/refresh'
+const url = 'http://spend-it-gatekeeper:8080/api/v1/refresh'
+
 const inMemoryJWTManager = () => {
     let logoutEventName = 'ra-logout';
     let Token = null;
@@ -51,7 +54,7 @@ const inMemoryJWTManager = () => {
 
 	refreshing = true;
 
-	isRefreshing = axios.get('http://localhost:8080/api/v1/refresh',   {
+	isRefreshing = axios.get(url,   {
 		withCredentials: true
 	})
 	.then(function(response){

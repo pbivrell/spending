@@ -43,26 +43,6 @@ query Updates{
     }
   }
 }`
-
-	const query = `
-query Updates{
-  estimate(where: {deleted: {_is_null: true}}){
-    id
-    description
-    amount
-    created
-    date
-    deleted
-    estimate
-    occurrence
-    owner_id
-    period
-    type
-    transactions(order_by: {date: asc_nulls_last}, limit: 1) {
-      date
-    }
-  }
-}`
 	const url = "http://spend-it-api.herokuapp.com/v1/graphql"
         const graphqlData= {
                 "query":query,
